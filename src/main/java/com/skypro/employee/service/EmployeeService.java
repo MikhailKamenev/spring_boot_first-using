@@ -2,7 +2,10 @@ package com.skypro.employee.service;
 
 import com.skypro.employee.model.Employee;
 import com.skypro.employee.record.EmployeeRequest;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 
@@ -15,13 +18,18 @@ public class EmployeeService {
     }
 
     public Employee addEmployee(EmployeeRequest employeeRequest) {
+        HttpClientErrorException badRequest = new HttpClientErrorException(HttpStatus.BAD_REQUEST);
         if (employeeRequest.getName() == null
-                || employeeRequest.getPatronymic() == null
-                || employeeRequest.getSurname() == null) {
-            throw new IllegalArgumentException("Employee name should be set");
+                || employeeRequest.getSurname() == null
+                ||StringUtils.isEmpty(employeeRequest.getName())
+                ||StringUtils.isEmpty(employeeRequest.getSurname())
+                ||StringUtils.isBlank(employeeRequest.getSurname())
+                ||StringUtils.isBlank(employeeRequest.getSurname())) {
+            throw badRequest;
         }
-        Employee employee = new Employee(employeeRequest.getName(), employeeRequest.getPatronymic()
-                , employeeRequest.getSurname(),
+        Employee employee = new Employee(StringUtils.capitalize(employeeRequest.getName()),
+                StringUtils.capitalize(employeeRequest.getPatronymic())
+                , StringUtils.capitalize(employeeRequest.getSurname()),
                 employeeRequest.getDepartment(),
                 employeeRequest.getWage());
         this.employees.put(employee.getId(), employee);

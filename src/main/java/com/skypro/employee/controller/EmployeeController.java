@@ -48,4 +48,9 @@ public class EmployeeController {
     public Collection<Employee> getWellPaidEmployees() {
         return this.employeeService.getWellPaidEmployees();
     }
+
+//    @GetMapping("/employees/name/check")
+//    public Employee isCorrect() {
+//        return this.employeeService.isCorrect();
+//    }
 }
