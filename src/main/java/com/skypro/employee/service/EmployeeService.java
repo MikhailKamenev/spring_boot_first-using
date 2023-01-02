@@ -56,4 +56,7 @@ public class EmployeeService {
         return this.employees.values().stream().filter(s->s.getWage()>employees.values()
                 .stream().mapToInt(Employee::getWage).average().getAsDouble()).toList();
     }
+    public Employee removeEmployee(int id) {
+        return employees.remove(id);
+    }
 }
